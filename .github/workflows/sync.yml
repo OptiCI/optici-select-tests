@@ -14,6 +14,7 @@ jobs:
       - name: Clone private repo
         run: |
           git clone https://x-access-token:${{ secrets.GH_ACTION_SYNC_PAT }}@github.com/OptiCI/optici.git
+          mkdir temp-copy
           cp -r optici/github.action.testselection/* temp-copy/
 
       - name: Clean public repo (except .github)

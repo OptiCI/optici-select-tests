@@ -30,7 +30,7 @@ jobs:
           if [ -n "$(git status --porcelain)" ]; then
             git add .
             git commit -m "Sync"
-            git push
+            git push https://x-access-token:${{ secrets.GH_ACTION_SYNC_PAT }}@github.com/OptiCI/optici.git HEAD:main
           else
             echo "No changes"
           fi

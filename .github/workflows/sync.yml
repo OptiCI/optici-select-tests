@@ -42,6 +42,8 @@ jobs:
           if [ -n "$(git status --porcelain)" ]; then
             git add .
             git commit -m "Sync"
+            git status
+            git branch
             git remote -v
             git push https://x-access-token:${{ secrets.GH_ACTION_SYNC_PAT }}@github.com/OptiCI/optici-select-tests.git HEAD:main
           else

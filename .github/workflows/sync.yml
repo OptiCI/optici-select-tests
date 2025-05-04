@@ -13,9 +13,12 @@ jobs:
 
       - name: Clone private repo
         run: |
-          git clone https://x-access-token:${{ secrets.GH_ACTION_SYNC_PAT }}@github.com/OptiCI/optici.git
+          git clone --depth 1 --filter=blob:none --sparse https://x-access-token:${{ secrets.GH_ACTION_SYNC_PAT }}@github.com/OptiCI/optici.git private
           mkdir temp-copy
-          cp -r optici/github.action.testselection/* temp-copy/
+          cd private
+          git sparse-checkout set github.action.testselection
+          cp -r github.action.testselection/* ../temp-copy/
+          cd ..
 
       - name: Clean public repo (except .github)
         run: |
@@ -25,12 +28,13 @@ jobs:
 
       - name: Commit and push if changed
         run: |
+          git remote set-url origin https://x-access-token:${{ secrets.GH_ACTION_SYNC_PAT }}@github.com/OptiCI/optici-select-tests.git
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           if [ -n "$(git status --porcelain)" ]; then
             git add .
             git commit -m "Sync"
-            git push https://x-access-token:${{ secrets.GH_ACTION_SYNC_PAT }}@github.com/OptiCI/optici.git HEAD:main
+            git push HEAD:main
           else
             echo "No changes"
           fi

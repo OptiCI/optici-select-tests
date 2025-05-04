@@ -34,7 +34,7 @@ jobs:
           if [ -n "$(git status --porcelain)" ]; then
             git add .
             git commit -m "Sync"
-            git push HEAD:main
+            git push
           else
             echo "No changes"
           fi

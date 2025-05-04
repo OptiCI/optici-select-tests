@@ -8,11 +8,20 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Clone private repo
         run: |
           git clone https://x-access-token:${{ secrets.GH_ACTION_SYNC_PAT }}@github.com/OptiCI/optici.git
-          cp -r optici/github.action.testselection/* .
-      
+          cp -r optici/github.action.testselection/* temp-copy/
+
+      - name: Clean public repo (except .github)
+        run: |
+          shopt -s extglob
+          rm -rf !(temp-copy|.git|.github)
+          mv temp-copy/* .
+
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions"

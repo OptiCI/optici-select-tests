@@ -1,0 +1,17 @@
+{
+  "name": "optici-select-tests",
+  "version": "1.0.0",
+  "description": "GitHub Action to select tests for a set of changes in a PR",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "ncc build index.js --license licenses.txt"
+  },
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@actions/github": "^5.1.1",
+    "node-fetch": "^2.6.9"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.38.3"
+  }
+}

@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Clone private repo
         run: |
-          git clone https://x-access-token:${{ secrets.GH_ACTION_SYNC_PAT }}@github.com/your-org/optici.git
+          git clone https://x-access-token:${{ secrets.GH_ACTION_SYNC_PAT }}@github.com/OptiCI/optici.git
           cp -r optici/github.action.testselection/* .
       
       - name: Commit and push if changed

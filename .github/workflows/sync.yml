@@ -11,6 +11,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set remote to use PAT
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.GH_ACTION_SYNC_PAT }}@github.com/OptiCI/optici-select-tests.git
+
       - name: Clone private repo
         run: |
           git clone --depth 1 --filter=blob:none --sparse https://x-access-token:${{ secrets.GH_ACTION_SYNC_PAT }}@github.com/OptiCI/optici.git private
@@ -28,13 +32,13 @@ jobs:
 
       - name: Commit and push if changed
         run: |
-          git remote set-url origin https://x-access-token:${{ secrets.GH_ACTION_SYNC_PAT }}@github.com/OptiCI/optici-select-tests.git
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           if [ -n "$(git status --porcelain)" ]; then
             git add .
             git commit -m "Sync"
-            git push
+            git remote -v
+            git push origin HEAD:main
           else
             echo "No changes"
           fi
